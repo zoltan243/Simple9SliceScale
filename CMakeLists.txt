@@ -46,7 +46,7 @@ file(APPEND ${CMAKE_BINARY_DIR}/ext/src/CMakeLists.txt "file(GLOB IMGUI_SOURCE_F
 file(APPEND ${CMAKE_BINARY_DIR}/ext/src/CMakeLists.txt "file(GLOB HELPER_HEADER_FILES imgui/examples/imgui_impl_glfw.h imgui/examples/imgui_impl_opengl3.h) \n")
 file(APPEND ${CMAKE_BINARY_DIR}/ext/src/CMakeLists.txt "file(GLOB HELPER_SOURCE_FILES imgui/examples/imgui_impl_glfw.cpp imgui/examples/imgui_impl_opengl3.cpp) \n\n")
 # include directory for the imgui library project
-file(APPEND ${CMAKE_BINARY_DIR}/ext/src/CMakeLists.txt "include_directories(\"${CMAKE_BINARY_DIR}/out/include\" \"${CMAKE_BINARY_DIR}/out/include/imgui\") \n")
+file(APPEND ${CMAKE_BINARY_DIR}/ext/src/CMakeLists.txt "include_directories(imgui imgui/examples \"${CMAKE_BINARY_DIR}/out/include\") \n")
 # creating the library
 file(APPEND ${CMAKE_BINARY_DIR}/ext/src/CMakeLists.txt "add_library(libimgui STATIC \$\{IMGUI_SOURCE_FILES\} \$\{HELPER_SOURCE_FILES\}) \n\n")
 # install (copy) the lib and header files

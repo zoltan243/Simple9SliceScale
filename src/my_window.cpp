@@ -36,7 +36,7 @@ void MyWindow::init(int width, int height)
     glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
     glfwWindowHint(GLFW_SAMPLES, 4);
 
-    m_window = glfwCreateWindow(width, height, "OpenGL", nullptr, nullptr);
+    m_window = glfwCreateWindow(width, height, "9-slice with ImGui", nullptr, nullptr);
     if (!m_window)
         throw std::exception("Can't create window!");
 
