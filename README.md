@@ -22,6 +22,7 @@ When the build finishes, navigate to the *build/out/bin* folder and execute the 
 export LD_LIBRARY_PATH=../lib/
 ./9SliceScale
 ```
+(Tested on Ubuntu 20.04)
 
 ## ImGui example window:
 ![Example](example.gif)
