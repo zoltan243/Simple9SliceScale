@@ -5,7 +5,7 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb/stb_image.h>
 
-#include <exception>
+#include <stdexcept>
 #include <sstream>
 #include <fstream>
 #include <string>
@@ -104,7 +104,7 @@ void SlicedTexture::loadTexture()
     if (textureData)
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_texWidth, m_texHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, textureData);
     else
-        throw std::exception("Cannot load image!");
+        throw std::runtime_error("Cannot load image!");
 
     stbi_image_free(textureData);
 }
@@ -127,7 +127,7 @@ unsigned int SlicedTexture::createShader(const char* filename, unsigned int shad
 {
     std::ifstream file(filename);
     if (!file.good())
-        throw std::exception("Cannot open shader file!");
+        throw std::runtime_error("Cannot open shader file!");
 
     std::stringstream shaderCode;
     shaderCode << file.rdbuf();
@@ -138,7 +138,7 @@ unsigned int SlicedTexture::createShader(const char* filename, unsigned int shad
 
     unsigned int shader = glCreateShader(shaderType);
     if (shader == 0)
-        throw std::exception("Cannot create shader!");
+        throw std::runtime_error("Cannot create shader!");
 
     glShaderSource(shader, 1, &rawSrc, nullptr);
     glCompileShader(shader);
@@ -155,7 +155,7 @@ unsigned int SlicedTexture::createShader(const char* filename, unsigned int shad
 
         std::string error("Compilation error : ");
         error += std::string(errorMsg);
-        throw std::exception(error.c_str());
+        throw std::runtime_error(error.c_str());
     }
 
     return shader;
@@ -176,7 +176,7 @@ void SlicedTexture::createProgram()
     glDeleteShader(fragmentShader);
 
     if (!m_program)
-        throw std::exception("Cannot create program!");
+        throw std::runtime_error("Cannot create program!");
 
     glUseProgram(m_program);
 }

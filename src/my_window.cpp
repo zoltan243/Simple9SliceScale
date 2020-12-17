@@ -8,7 +8,7 @@
 #include <imgui/imgui_impl_glfw.h>
 #include <imgui/imgui_impl_opengl3.h>
 
-#include <exception>
+#include <stdexcept>
 #include <string>
 
 MyWindow::MyWindow()
@@ -28,7 +28,7 @@ MyWindow::~MyWindow()
 void MyWindow::init(int width, int height)
 {
     if (!glfwInit())
-        throw std::exception("Can't initialise GLFW!");
+        throw std::runtime_error("Can't initialise GLFW!");
 
     const char* glsl_version = "#version 330";
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -38,7 +38,7 @@ void MyWindow::init(int width, int height)
 
     m_window = glfwCreateWindow(width, height, "9-slice with ImGui", nullptr, nullptr);
     if (!m_window)
-        throw std::exception("Can't create window!");
+        throw std::runtime_error("Can't create window!");
 
     glfwMakeContextCurrent(m_window);
     glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
@@ -50,7 +50,7 @@ void MyWindow::init(int width, int height)
 
     unsigned int status = glewInit();
     if (status != GLEW_OK)
-        throw std::exception("Can't initialise GLEW!");
+        throw std::runtime_error("Can't initialise GLEW!");
 
     glViewport(0, 0, width, height);
 

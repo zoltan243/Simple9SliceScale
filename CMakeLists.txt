@@ -7,6 +7,10 @@ find_package(OpenGL REQUIRED)
 
 include(ExternalProject)
 
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
 # GLEW
 ExternalProject_Add(glew 
 	PREFIX ${CMAKE_BINARY_DIR}/ext SOURCE_SUBDIR build/cmake
@@ -36,6 +40,8 @@ ExternalProject_Add(imgui
 	PREFIX ${CMAKE_BINARY_DIR}/ext SOURCE_SUBDIR ../
 	GIT_PROGRESS ON GIT_TAG v1.79 GIT_REPOSITORY https://github.com/ocornut/imgui.git
 	CMAKE_ARGS -DCMAKE_DEBUG_POSTFIX=d -DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/out )
+ExternalProject_Add_StepDependencies(imgui install glew)
+ExternalProject_Add_StepDependencies(imgui install glfw)
 
 # create a CMakeLists.txt file for imgui (to build it as a lib): CMAKE_BINARY_DIR/ext/src/CMakeLists.txt
 file(WRITE ${CMAKE_BINARY_DIR}/ext/src/CMakeLists.txt "cmake_minimum_required(VERSION 3.10) \n\n")
@@ -48,9 +54,9 @@ file(APPEND ${CMAKE_BINARY_DIR}/ext/src/CMakeLists.txt "file(GLOB HELPER_SOURCE_
 # include directory for the imgui library project
 file(APPEND ${CMAKE_BINARY_DIR}/ext/src/CMakeLists.txt "include_directories(imgui imgui/examples \"${CMAKE_BINARY_DIR}/out/include\") \n")
 # creating the library
-file(APPEND ${CMAKE_BINARY_DIR}/ext/src/CMakeLists.txt "add_library(libimgui STATIC \$\{IMGUI_SOURCE_FILES\} \$\{HELPER_SOURCE_FILES\}) \n\n")
+file(APPEND ${CMAKE_BINARY_DIR}/ext/src/CMakeLists.txt "add_library(imguilib STATIC \$\{IMGUI_SOURCE_FILES\} \$\{HELPER_SOURCE_FILES\}) \n\n")
 # install (copy) the lib and header files
-file(APPEND ${CMAKE_BINARY_DIR}/ext/src/CMakeLists.txt "install(TARGETS libimgui LIBRARY DESTINATION lib) \n")
+file(APPEND ${CMAKE_BINARY_DIR}/ext/src/CMakeLists.txt "install(TARGETS imguilib LIBRARY DESTINATION lib) \n")
 file(APPEND ${CMAKE_BINARY_DIR}/ext/src/CMakeLists.txt "install(FILES \$\{IMGUI_HEADER_FILES\} \$\{HELPER_HEADER_FILES\} DESTINATION include/imgui) \n")
 
 

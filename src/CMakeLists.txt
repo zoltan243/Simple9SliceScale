@@ -1,6 +1,10 @@
 
 set(PROJECT_NAME 9SliceScale)
 
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
 add_definitions(-DGLEW_STATIC)
 
 add_executable(${PROJECT_NAME} 
@@ -15,11 +19,21 @@ add_executable(${PROJECT_NAME}
 target_compile_definitions(${PROJECT_NAME} PRIVATE DEBUG_RESOURCE_PATH="${CMAKE_CURRENT_SOURCE_DIR}/res")
 target_compile_definitions(${PROJECT_NAME} PRIVATE RELEASE_RESOURCE_PATH="./res")
 
-set(ALL_LIBS
-    debug "libglew32d" optimized "libglew32"
-    debug "glfw3_d" optimized "glfw3"
-	debug "libimguid" optimized "libimgui"
-    ${OPENGL_LIBRARIES})
+if (WIN32)
+    set(ALL_LIBS
+        debug "libglew32d" optimized "libglew32"
+        debug "glfw3_d" optimized "glfw3"
+        debug "imguilibd" optimized "imguilib"
+        ${OPENGL_LIBRARIES})
+else()
+    set(ALL_LIBS
+        debug "GLEW" optimized "GLEW"
+        debug "glfw3_d" optimized "glfw3"
+        debug "imguilibd" optimized "imguilib"
+        ${OPENGL_LIBRARIES}
+        pthread X11 dl)
+endif (WIN32)
+
 
 target_link_libraries(${PROJECT_NAME} ${ALL_LIBS})
 
