@@ -11,29 +11,35 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+
 # GLEW
 ExternalProject_Add(glew 
 	PREFIX ${CMAKE_BINARY_DIR}/ext SOURCE_SUBDIR build/cmake
 	GIT_PROGRESS ON GIT_REPOSITORY https://github.com/Perlmint/glew-cmake.git 
 	CMAKE_ARGS -DBUILD_UTILS=OFF -DGLEW_STATIC=ON -DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/out)
+set_target_properties (glew PROPERTIES FOLDER 3rdPartyLibraries)
 
 # GLFW
 ExternalProject_Add(glfw 
 	PREFIX ${CMAKE_BINARY_DIR}/ext
 	GIT_PROGRESS ON GIT_TAG 0a49ef0 GIT_REPOSITORY https://github.com/glfw/glfw.git 
 	CMAKE_ARGS -DCMAKE_DEBUG_POSTFIX=_d -DGLFW_BUILD_EXAMPLES=OFF -DGLFW_BUILD_TESTS=OFF -DGLFW_BUILD_DOCS=OFF -DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/out )
+set_target_properties (glfw PROPERTIES FOLDER 3rdPartyLibraries)
 
 # GLM
 ExternalProject_Add(glm 
 	PREFIX ${CMAKE_BINARY_DIR}/ext
 	GIT_PROGRESS ON GIT_TAG 13724cf GIT_REPOSITORY https://github.com/g-truc/glm.git 
 	BUILD_COMMAND "" INSTALL_COMMAND ${CMAKE_COMMAND} -E copy_directory ../glm/glm ${CMAKE_BINARY_DIR}/out/include/glm )
+set_target_properties (glm PROPERTIES FOLDER 3rdPartyLibraries)
 
 # stb
 ExternalProject_Add(stb 
 	PREFIX ${CMAKE_BINARY_DIR}/ext
 	GIT_PROGRESS ON GIT_REPOSITORY https://github.com/nothings/stb.git 
 	CONFIGURE_COMMAND "" BUILD_COMMAND "" INSTALL_COMMAND ${CMAKE_COMMAND} -E copy ../stb/stb_image.h ${CMAKE_BINARY_DIR}/out/include/stb/stb_image.h )
+set_target_properties (stb PROPERTIES FOLDER 3rdPartyLibraries)
 
 # ImGui
 ExternalProject_Add(imgui 
@@ -42,6 +48,7 @@ ExternalProject_Add(imgui
 	CMAKE_ARGS -DCMAKE_DEBUG_POSTFIX=d -DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/out )
 ExternalProject_Add_StepDependencies(imgui install glew)
 ExternalProject_Add_StepDependencies(imgui install glfw)
+set_target_properties (imgui PROPERTIES FOLDER 3rdPartyLibraries)
 
 # create a CMakeLists.txt file for imgui (to build it as a lib): CMAKE_BINARY_DIR/ext/src/CMakeLists.txt
 file(WRITE ${CMAKE_BINARY_DIR}/ext/src/CMakeLists.txt "cmake_minimum_required(VERSION 3.10) \n\n")
